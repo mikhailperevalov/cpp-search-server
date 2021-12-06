@@ -16,6 +16,5 @@ int main()
     std::cout << count << std::endl;
     system("pause");
     return 0;
-
 }
 // Закомитьте изменения и отправьте их в свой репозиторий.
