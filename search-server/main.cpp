@@ -50,7 +50,10 @@ struct Document {
 };
 
 enum class DocumentStatus {
-	ACTUAL, IRRELEVANT, BANNED, REMOVED,
+	ACTUAL, 
+	IRRELEVANT, 
+	BANNED, 
+	REMOVED
 };
 
 class SearchServer {
