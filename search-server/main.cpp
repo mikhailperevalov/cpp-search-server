@@ -294,18 +294,18 @@ ostream& operator<<(ostream& out, const pair<First, Second>& p) {
     return out << p.first << ": "s << p.second;
 }
 
-void AssertImpl( bool value, const std::string& expr_str, const std::string& file, const std::string& func, unsigned line,
-                 const std::string& hint )
+void AssertImpl( bool value, const string& expr_str, const string& file, const string& func, unsigned line,
+                 const string& hint )
 {
     if (!value)
     {
-        std::cerr << file << "("s << line << "s): "s << func << ": "s;
-        std::cerr << "ASSERT("s << expr_str << "s) failed."s;
+        cerr << file << "("s << line << "s): "s << func << ": "s;
+        cerr << "ASSERT("s << expr_str << "s) failed."s;
         if ( !hint.empty() )
         {
-            std::cerr << " Hint: "s << hint;
+            cerr << " Hint: "s << hint;
         }
-        std::cerr << std::endl;
+        cerr << endl;
         abort();
     }
 }
@@ -328,11 +328,10 @@ void AssertEqualImpl(const T& t, const U& u, const string& t_str, const string& 
 
 
 template <typename Function>
-void RunTestImpl( Function func, const std::string& funcName )
+void RunTestImpl( Function func, const string& funcName )
 {
-    using std::string_literals::operator""s;
     func();
-    std::cerr << funcName << " OK"s << std::endl;
+    cerr << funcName << " OK"s << endl;
 }
 
 #define ASSERT_EQUAL(a, b) AssertEqualImpl((a), (b), #a, #b, __FILE__, __FUNCTION__, __LINE__, ""s)
