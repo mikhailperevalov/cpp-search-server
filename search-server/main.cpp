@@ -314,14 +314,14 @@ template <typename T, typename U>
 void AssertEqualImpl(const T& t, const U& u, const string& t_str, const string& u_str, const string& file,
                      const string& func, unsigned line, const string& hint) {
     if (t != u) {
-        cout << boolalpha;
-        cout << file << "("s << line << "): "s << func << ": "s;
-        cout << "ASSERT_EQUAL("s << t_str << ", "s << u_str << ") failed: "s;
-        cout << t << " != "s << u << "."s;
+        cerr << boolalpha;
+        cerr << file << "("s << line << "): "s << func << ": "s;
+        cerr << "ASSERT_EQUAL("s << t_str << ", "s << u_str << ") failed: "s;
+        cerr << t << " != "s << u << "."s;
         if (!hint.empty()) {
-            cout << " Hint: "s << hint;
+            cerr << " Hint: "s << hint;
         }
-        cout << endl;
+        cerr << endl;
         abort();
     }
 }
@@ -339,7 +339,7 @@ void RunTestImpl( Function func, const std::string& funcName )
 #define ASSERT_EQUAL_HINT(a, b, hint) AssertEqualImpl((a), (b), #a, #b, __FILE__, __FUNCTION__, __LINE__, (hint))
 #define ASSERT(expr) AssertImpl(!!(expr), #expr, __FILE__, __FUNCTION__, __LINE__, ""s)
 #define ASSERT_HINT(expr, hint) AssertImpl(!!(expr), #expr, __FILE__, __FUNCTION__, __LINE__, (hint))
-#define RUN_TEST(func)  RunTestImpl(func, #func)
+#define RUN_TEST(func) RunTestImpl(func, #func)
 
 // ------------------------------ Начало модульных тестов поисковой системы ---------------------------------------
 void TestExcludeStopWord() {
