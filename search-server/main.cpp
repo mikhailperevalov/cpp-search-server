@@ -297,8 +297,7 @@ ostream& operator<<(ostream& out, const pair<First, Second>& p) {
 void AssertImpl( bool value, const string& expr_str, const string& file, const string& func, unsigned line,
                  const string& hint )
 {
-    if (!value)
-    {
+    if (!value) {
         cerr << file << "("s << line << "s): "s << func << ": "s;
         cerr << "ASSERT("s << expr_str << "s) failed."s;
         if ( !hint.empty() )
@@ -328,8 +327,7 @@ void AssertEqualImpl(const T& t, const U& u, const string& t_str, const string& 
 
 
 template <typename Function>
-void RunTestImpl( Function func, const string& funcName )
-{
+void RunTestImpl( Function func, const string& funcName ) {
     func();
     cerr << funcName << " OK"s << endl;
 }
@@ -445,7 +443,7 @@ int main() {
     SearchServer search_server;
     search_server.SetStopWords("how to or"s);
     search_server.AddDocument(0, "how to cook sea bass"s, DocumentStatus::ACTUAL, {1, -5, 2, 0});
-    search_server.AddDocument(1, "how catch herring or sea bass"s, DocumentStatus::ACTUAL, {2, 3, 2, 60});
+    search_server.AddDocument(1, "how catch herring or sea bass"s, DocumentStatus::ACTUAL, {2, 3, 2});
     search_server.AddDocument(2, "where to buy scotch"s, DocumentStatus::ACTUAL, {3, 11, -1, 2});
 
     for (const Document& document : search_server.FindTopDocuments("sea bass"s)) {
