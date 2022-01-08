@@ -297,7 +297,7 @@ ostream& operator<<(ostream& out, const pair<First, Second>& p) {
 void AssertImpl( bool value, const std::string& expr_str, const std::string& file, const std::string& func, unsigned line,
                  const std::string& hint )
 {
-    if ( !value )
+    if (!value)
     {
         std::cerr << file << "("s << line << "s): "s << func << ": "s;
         std::cerr << "ASSERT("s << expr_str << "s) failed."s;
