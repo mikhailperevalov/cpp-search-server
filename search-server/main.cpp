@@ -80,7 +80,6 @@ public:
         SetStopWords(stop_words);
     }
 
-
     void AddDocument(int document_id, const string& document, DocumentStatus status, const vector<int>& ratings) {
 
         if (document_id < 0) {
@@ -212,8 +211,7 @@ private:
     }
 
     bool IsSpecialSimbol(const string& document) const {
-
-    bool is_word = false;
+    	bool is_word = false;
 		for (int i = 0; i < document.length(); i++)
 		{
 			int ch = document[i];
@@ -226,7 +224,7 @@ private:
 			if ((ch <= 31 && ch >= 0) || (is_dash && !is_word && (next_simb == '\0' || next_simb == '-' || IsSpace(next_simb))))
 				return true;
 		}
-		return false;
+	return false;
     }
 
     static bool IsSpace(int ch)
@@ -262,7 +260,6 @@ private:
     };
 
     QueryWord ParseQueryWord(string text) const {
-
         bool is_minus = false;
         if (text[0] == '-') {
             is_minus = true;
@@ -557,7 +554,7 @@ void TestAddedDocumentStatus() {
 
     ASSERT(server.FindTopDocuments(query).empty());
 }
-
+//-----------------------------------------------------------------------------------------------------------------
 void TestCorrectMinusWords(void) {
     {
         try {
@@ -627,7 +624,6 @@ void TestSearchServer() {
 // ----------------------------- Окончание модульных тестов поисковой системы -------------------------------------
 
 int main() {
-    setlocale(LC_ALL, "Russian");
     try
     {
         TestSearchServer();
