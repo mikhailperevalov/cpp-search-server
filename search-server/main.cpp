@@ -48,9 +48,9 @@ struct Document {
     Document() = default;
 
     Document(int id, double relevance, int rating)
-            : id(id)
-            , relevance(relevance)
-            , rating(rating) {
+        : id(id)
+        , relevance(relevance)
+        , rating(rating) {
     }
 
     int id = 0;
@@ -126,10 +126,10 @@ public:
 
     vector<Document> FindTopDocuments(const string& raw_query, DocumentStatus status) const {
         return FindTopDocuments(
-                raw_query,
-                [status](int document_id, DocumentStatus document_status, int rating) {
-                    return document_status == status;
-                });
+            raw_query,
+            [status](int document_id, DocumentStatus document_status, int rating) {
+                return document_status == status;
+            });
     }
 
     vector<Document> FindTopDocuments(const string& raw_query) const {
@@ -198,7 +198,7 @@ private:
                 stop_words_.insert(word);
             }
         }
-    }
+	}
 
     bool IsStopWord(const string& word) const {
         return stop_words_.count(word) > 0;
@@ -213,26 +213,26 @@ private:
 
     bool IsSpecialSimbol(const string& document) const {
 
-        bool is_word = false;
-        for (int i = 0; i < document.length(); i++)
-        {
-            int ch = document[i];
-            bool is_dash = document[i] == '-';
-            if (IsSpace(document[i]))
-                is_word = false;
-            else if (!is_dash)
-                is_word = true;
-            char next_simb = document[i + 1];
-            if ((ch <= 31 && ch >= 0) || (is_dash && !is_word && (next_simb == '\0' || next_simb == '-' || IsSpace(next_simb))))
-                return true;
-        }
-        return false;
+    bool is_word = false;
+		for (int i = 0; i < document.length(); i++)
+		{
+			int ch = document[i];
+			bool is_dash = document[i] == '-';
+			if (IsSpace(document[i]))
+				is_word = false;
+			else if (!is_dash)
+				is_word = true;
+			char next_simb = document[i + 1];
+			if ((ch <= 31 && ch >= 0) || (is_dash && !is_word && (next_simb == '\0' || next_simb == '-' || IsSpace(next_simb))))
+				return true;
+		}
+		return false;
     }
 
     static bool IsSpace(int ch)
-    {
-        return (ch == int(' ') || ch == int('\t') || ch == int('\n') || ch == int('\r'));
-    }
+	{
+		return (ch == int(' ') || ch == int('\t') || ch == int('\n') || ch == int('\r'));
+	}
 
     vector<string> SplitIntoWordsNoStop(const string& text) const {
         vector<string> words;
@@ -271,7 +271,7 @@ private:
         return {text,
                 is_minus,
                 IsStopWord(text)
-        };
+                };
     }
 
     struct Query {
@@ -557,7 +557,7 @@ void TestAddedDocumentStatus() {
 
     ASSERT(server.FindTopDocuments(query).empty());
 }
-//-----------------------------------------------------------------------------------------------------------------
+
 void TestCorrectMinusWords(void) {
     {
         try {
@@ -627,6 +627,7 @@ void TestSearchServer() {
 // ----------------------------- Окончание модульных тестов поисковой системы -------------------------------------
 
 int main() {
+    setlocale(LC_ALL, "Russian");
     try
     {
         TestSearchServer();
@@ -636,7 +637,6 @@ int main() {
         cout << e.what() << endl;
     }
     cout << "Search server testing finished"s << endl;
-    
     SearchServer search_server("и в на"s);
 
     AddDocument(search_server, 1, "пушистый кот пушистый хвост"s, DocumentStatus::ACTUAL, {7, 2, 7});
@@ -653,18 +653,4 @@ int main() {
     MatchDocuments(search_server, "модный -кот"s);
     MatchDocuments(search_server, "модный --пёс"s);
     MatchDocuments(search_server, "пушистый - хвост"s);
-
-    TestSearchServer();
-    cout << "Search server testing finished"s << endl;
-
-    SearchServer search_server;
-    search_server.SetStopWords("how to or"s);
-    search_server.AddDocument(0, "how to cook sea bass"s, DocumentStatus::ACTUAL, {1, -5, 2, 0});
-    search_server.AddDocument(1, "how catch herring or sea bass"s, DocumentStatus::ACTUAL, {2, 3, 2});
-    search_server.AddDocument(2, "where to buy scotch"s, DocumentStatus::ACTUAL, {3, 11, -1, 2});
-
-    for (const Document& document : search_server.FindTopDocuments("sea bass"s)) {
-        PrintDocument(document);
-    }
-    return 0;
 }
