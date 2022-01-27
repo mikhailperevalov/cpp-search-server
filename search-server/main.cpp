@@ -426,7 +426,10 @@ ostream& operator<<(ostream& out, const pair<First, Second>& p) {
     return out << p.first << ": "s << p.second;
 }
 
+<<<<<<< HEAD
 // ----------------------------------------------- Имплементация --------------------------------------------------
+=======
+>>>>>>> 9eef76ee1d0f532f9230ec8baeec68a65489274b
 void AssertImpl( bool value, const string& expr_str, const string& file, const string& func, unsigned line,
                  const string& hint )
 {
@@ -471,6 +474,10 @@ void RunTestImpl( Function func, const string& funcName ) {
 #define ASSERT(expr) AssertImpl(!!(expr), #expr, __FILE__, __FUNCTION__, __LINE__, ""s)
 #define ASSERT_HINT(expr, hint) AssertImpl(!!(expr), #expr, __FILE__, __FUNCTION__, __LINE__, (hint))
 #define RUN_TEST(func) RunTestImpl(func, #func)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9eef76ee1d0f532f9230ec8baeec68a65489274b
 // ------------------------------ Начало модульных тестов поисковой системы ---------------------------------------
 
 void TestExcludeStopWord() {
@@ -627,6 +634,7 @@ void TestSearchServer() {
 // ----------------------------- Окончание модульных тестов поисковой системы -------------------------------------
 
 int main() {
+<<<<<<< HEAD
     setlocale(LC_ALL, "Russian");
     try
     {
@@ -653,4 +661,19 @@ int main() {
     MatchDocuments(search_server, "модный -кот"s);
     MatchDocuments(search_server, "модный --пёс"s);
     MatchDocuments(search_server, "пушистый - хвост"s);
+=======
+    TestSearchServer();
+    cout << "Search server testing finished"s << endl;
+
+    SearchServer search_server;
+    search_server.SetStopWords("how to or"s);
+    search_server.AddDocument(0, "how to cook sea bass"s, DocumentStatus::ACTUAL, {1, -5, 2, 0});
+    search_server.AddDocument(1, "how catch herring or sea bass"s, DocumentStatus::ACTUAL, {2, 3, 2});
+    search_server.AddDocument(2, "where to buy scotch"s, DocumentStatus::ACTUAL, {3, 11, -1, 2});
+
+    for (const Document& document : search_server.FindTopDocuments("sea bass"s)) {
+        PrintDocument(document);
+    }
+    return 0;
+>>>>>>> 9eef76ee1d0f532f9230ec8baeec68a65489274b
 }
