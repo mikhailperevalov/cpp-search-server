@@ -88,9 +88,6 @@ public:
         if (documents_.count(document_id) > 0) {
             throw invalid_argument("Документ с таким id уже есть в системе");
         }
-        if (IsSpecialSimbol(document)) {
-            throw invalid_argument("Обнаружены спец-символы ASCII 0-31 или некорректные стоп слова");
-        }
         const vector<string> words = SplitIntoWordsNoStop(document);
 
         const double inv_word_count = 1.0 / words.size();
@@ -103,10 +100,6 @@ public:
 
     template <typename DocumentPredicate>
     vector<Document> FindTopDocuments(const string& raw_query, DocumentPredicate document_predicate) const {
-
-        if (IsSpecialSimbol(raw_query)) {
-            throw invalid_argument("Обнаружены спец-символы ASCII 0-31 или некорректные стоп слова");
-        }
         Query query = ParseQuery(raw_query);
         auto matched_documents = FindAllDocuments(query, document_predicate);
 
@@ -147,12 +140,8 @@ public:
     }
 
     tuple<vector<string>, DocumentStatus> MatchDocument(const string& raw_query, int document_id) const {
-
         if (documents_.count(document_id) == 0) {
             throw invalid_argument("Документ не найден");
-        }
-        if (IsSpecialSimbol(raw_query)) {
-            throw invalid_argument("Обнаружены спец-символы ASCII 0-31 или некорректные стоп слова");
         }
 
         const Query query = ParseQuery(raw_query);
@@ -209,32 +198,13 @@ private:
             return c >= '\0' && c < ' ';
         });
     }
-
-    bool IsSpecialSimbol(const string& document) const {
-    	bool is_word = false;
-		for (int i = 0; i < document.length(); i++)
-		{
-			int ch = document[i];
-			bool is_dash = document[i] == '-';
-			if (IsSpace(document[i]))
-				is_word = false;
-			else if (!is_dash)
-				is_word = true;
-			char next_simb = document[i + 1];
-			if ((ch <= 31 && ch >= 0) || (is_dash && !is_word && (next_simb == '\0' || next_simb == '-' || IsSpace(next_simb))))
-				return true;
-		}
-	return false;
-    }
-
-    static bool IsSpace(int ch)
-	{
-		return (ch == int(' ') || ch == int('\t') || ch == int('\n') || ch == int('\r'));
-	}
-
+	
     vector<string> SplitIntoWordsNoStop(const string& text) const {
         vector<string> words;
         for (const string& word : SplitIntoWords(text)) {
+            if (!IsValidWord(word)) {
+            throw invalid_argument("Некорректный ввод: "s + string(word));
+            }
             if (!IsStopWord(word)) {
                 words.push_back(word);
             }
@@ -260,10 +230,16 @@ private:
     };
 
     QueryWord ParseQueryWord(string text) const {
+        if (text.empty()) {
+        throw invalid_argument("Пустой запрос"s);
+        }
         bool is_minus = false;
         if (text[0] == '-') {
             is_minus = true;
             text = text.substr(1);
+        }
+        if (text.empty() || text[0] == '-' || !IsValidWord(text)) {
+        throw invalid_argument("Некорректный ввод: "s + string(text));
         }
         return {text,
                 is_minus,
