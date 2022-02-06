@@ -203,7 +203,7 @@ private:
         vector<string> words;
         for (const string& word : SplitIntoWords(text)) {
             if (!IsValidWord(word)) {
-            throw invalid_argument("Некорректный ввод: "s + string(word));
+            	throw invalid_argument("Некорректный ввод: "s + string(word));
             }
             if (!IsStopWord(word)) {
                 words.push_back(word);
