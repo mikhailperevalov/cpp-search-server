@@ -113,7 +113,7 @@ std::vector<Document> SearchServer::FindTopDocuments(const std::string& raw_quer
     }
     return matched_documents;
 }
-
+    
 template <typename StringCollection>
 void SearchServer::SetStopWords(const StringCollection& stop_words) {
 
