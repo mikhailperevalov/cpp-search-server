@@ -1,7 +1,5 @@
 #include "search_server.h"
 
-using namespace std;
-
 SearchServer::SearchServer(const std::string& stop_words) {
     SetStopWords(SplitIntoWords(stop_words));
 }
