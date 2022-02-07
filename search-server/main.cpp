@@ -1,8 +1,8 @@
 #include "search_server.h"
 #include "request_queue.h"
 #include "string_processing.h"
-#include "read_input_functions.h"
 #include "paginator.h"
+
 using namespace std;
 
 int main() {
@@ -25,6 +25,7 @@ int main() {
     request_queue.AddFindRequest("big collar"s);
     // первый запрос удален, 1437 запросов с нулевым результатом
     request_queue.AddFindRequest("sparrow"s);
+
     std::cout << "Total empty requests: "s << request_queue.GetNoResultRequests() << std::endl;
     return 0;
 } 
