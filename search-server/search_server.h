@@ -1,22 +1,15 @@
 #pragma once
-#include <vector>
-#include <iostream>
+
 #include <algorithm>
-#include <deque>
 #include <cmath>
-#include <iostream>
 #include <map>
 #include <set>
-#include <stdexcept>
-#include <numeric>
 #include <string>
-#include <utility>
+#include <tuple>
 #include <vector>
 
 #include "document.h"
 #include "string_processing.h"
-
-using namespace std;
 
 const int MAX_RESULT_DOCUMENT_COUNT = 5;
 
@@ -102,7 +95,7 @@ std::vector<Document> SearchServer::FindTopDocuments(const std::string& raw_quer
     auto matched_documents = FindAllDocuments(query, document_predicate);
 
     sort(matched_documents.begin(), matched_documents.end(), [](const Document& lhs, const Document& rhs) {
-        if (abs(lhs.relevance - rhs.relevance) < 1e-6) {
+        if (std::abs(lhs.relevance - rhs.relevance) < 1e-6) {
             return lhs.rating > rhs.rating;
         } else {
             return lhs.relevance > rhs.relevance;
