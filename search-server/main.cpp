@@ -2,6 +2,7 @@
 #include "request_queue.h"
 #include "string_processing.h"
 #include "paginator.h"
+#include "print_functions.h"
 
 using namespace std;
 
@@ -15,6 +16,10 @@ int main() {
     search_server.AddDocument(4, "big dog sparrow Eugene"s, DocumentStatus::ACTUAL, { 1, 3, 2 });
     search_server.AddDocument(5, "big dog sparrow Vasiliy"s, DocumentStatus::ACTUAL, { 1, 1, 1 });
 
+    FindTopDocuments(search_server, "curly -cat");
+
+    MatchDocuments(search_server, "curly -dog");
+    /*
     // 1439 запросов с нулевым результатом
     for (int i = 0; i < 1439; ++i) {
         request_queue.AddFindRequest("empty request"s);
@@ -27,5 +32,6 @@ int main() {
     request_queue.AddFindRequest("sparrow"s);
 
     std::cout << "Total empty requests: "s << request_queue.GetNoResultRequests() << std::endl;
+    */
     return 0;
 } 
