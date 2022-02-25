@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "print_functions.h"
+#include "test_example_functions.h"
 #include "log_duration.h"
 
 using namespace std;
@@ -48,9 +48,8 @@ void MatchDocuments(const SearchServer& search_server, const string& query) {
     LOG_DURATION_STREAM("Operation time", cout);
     try {
         cout << "Матчинг документов по запросу: "s << query << endl;
-        const int document_count = search_server.GetDocumentCount();
-        for (int index = 0; index < document_count; ++index) {
-            const int document_id = search_server.GetDocumentId(index);
+
+        for (int document_id : search_server) {
             const auto [words, status] = search_server.MatchDocument(query, document_id);
             PrintMatchDocumentResult(document_id, words, status);
         }

@@ -11,6 +11,7 @@
 #include "document.h"
 #include "string_processing.h"
 
+
 const int MAX_RESULT_DOCUMENT_COUNT = 5;
 
 class SearchServer {
@@ -34,10 +35,15 @@ public:
     std::vector<Document> FindTopDocuments(const std::string& raw_query) const;
 
     int GetDocumentCount() const;
+    
+    std::set<int>::const_iterator begin() const;
+    std::set<int>::const_iterator end() const;
 
-    int GetDocumentId(int index) const;
-
+    const std::map<std::string, double>& GetWordFrequencies(int document_id) const;
+    
     std::tuple<std::vector<std::string>, DocumentStatus> MatchDocument(const std::string& raw_query, int document_id) const;
+    
+    void RemoveDocument(int document_id);
 
 private:
     struct DocumentData {
@@ -47,8 +53,9 @@ private:
 
     std::set<std::string> stop_words_;
     std::map<std::string, std::map<int, double>> word_to_document_freqs_;
+    std::map<int, std::map<std::string, double>> document_to_word_freqs_;
     std::map<int, DocumentData> documents_;
-    std::vector<int> document_ids_;
+    std::set<int> document_ids_;
 
     template <typename StringCollection>
     void SetStopWords(const StringCollection& stop_words);
@@ -76,7 +83,6 @@ private:
 
     Query ParseQuery(const std::string& text) const;
 
-    // Existence required
     double ComputeWordInverseDocumentFreq(const std::string& word) const;
 
     template <typename DocumentPredicate>
