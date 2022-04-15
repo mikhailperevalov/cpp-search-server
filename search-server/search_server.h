@@ -92,7 +92,7 @@ private:
     double ComputeWordInverseDocumentFreq(std::string_view word) const;
 
     template <typename DocumentPredicate, class Policy>
-std::vector<Document> FindAllDocuments(const Policy policy, const Query& query, DocumentPredicate document_predicate) const;
+    std::vector<Document> FindAllDocuments(const Policy policy, const Query& query, DocumentPredicate document_predicate) const;
 };
 
 template <typename StringContainer>
