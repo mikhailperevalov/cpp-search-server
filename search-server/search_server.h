@@ -172,8 +172,6 @@ std::vector<Document> SearchServer::FindAllDocuments(const Policy policy, const 
     return matched_documents;
 }
 
-
-
 template <typename Policy>
 void SearchServer::RemoveDocument(Policy& policy, int document_id) {
     if (document_to_word_freqs_.count(document_id) == 0) {
