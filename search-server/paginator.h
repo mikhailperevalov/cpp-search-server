@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <assert>
 #include <iostream>
 #include <iterator>
 #include <vector>
@@ -69,6 +70,7 @@ private:
 template <typename Iterator>
 Paginator<Iterator>::Paginator(Iterator begin, Iterator end, size_t page_size)
 {
+    assert(end >= begin && page_size > 0);
     for(size_t mov = distance(begin, end); mov > 0;) {
         size_t current_size = std::min(page_size, mov);
         Iterator current_it = next(begin, current_size);
