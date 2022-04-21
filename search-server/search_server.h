@@ -17,6 +17,7 @@
 
 
 const int MAX_RESULT_DOCUMENT_COUNT = 5;
+constexpr double DEVIATION = 1e-6;
 
 class SearchServer {
 public:
@@ -92,7 +93,7 @@ private:
     double ComputeWordInverseDocumentFreq(std::string_view word) const;
 
     template <typename DocumentPredicate, class Policy>
-    std::vector<Document> FindAllDocuments(const Policy policy, const Query& query, DocumentPredicate document_predicate) const;
+std::vector<Document> FindAllDocuments(const Policy policy, const Query& query, DocumentPredicate document_predicate) const;
 };
 
 template <typename StringContainer>
@@ -115,7 +116,7 @@ std::vector<Document> SearchServer::FindTopDocuments(const Policy& policy, std::
     auto matched_documents = FindAllDocuments(policy, query, document_predicate);
 
     sort(policy,matched_documents.begin(), matched_documents.end(), [](const Document& lhs, const Document& rhs) {
-        if (std::abs(lhs.relevance - rhs.relevance) < 1e-6) {
+        if (std::abs(lhs.relevance - rhs.relevance) < DEVIATION) {
             return lhs.rating > rhs.rating;
         } else {
             return lhs.relevance > rhs.relevance;
